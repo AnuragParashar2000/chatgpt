@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatGPT Integration</title>
+</head>
+<body>
+    <h1>Enter [Our Business] Details:</h1>
+    <textarea id="ourBusinessInput" rows="10" cols="50"></textarea>
+    <button onclick="getChatGPTResponses()">Get Responses</button>
+    <div id="output"></div>
+
+    <script>
+        async function getChatGPTResponses() {
+            const ourBusinessInput = document.getElementById('ourBusinessInput').value;
+            const response = await fetch('/get_responses', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ our_business_input: ourBusinessInput })
+            });
+
+            const data = await response.json();
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = '';
+
+            data.forEach(response => {
+                const responseDiv = document.createElement('div');
+                responseDiv.textContent = response;
+                outputDiv.appendChild(responseDiv);
+            });
+        }
+    </script>
+</body>
+</html>
